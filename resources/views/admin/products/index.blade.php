@@ -87,13 +87,18 @@
                             {{ $product->stock }} Pcs
                         </span>
                     </td>
+                    <!-- Kolom Aksi dengan Tombol Bergaya Modern -->
                     <td class="px-4 py-3 text-center whitespace-nowrap">
-                        <div class="inline-flex items-center justify-center gap-3">
-                            <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs font-semibold">Edit</a>
+                        <div class="inline-flex items-center justify-center gap-2">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                                Edit
+                            </a>
                             <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-flex items-center m-0 p-0" onsubmit="return confirm('Hapus produk ini?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 dark:text-red-400 hover:underline text-xs font-semibold bg-transparent border-0 cursor-pointer p-0">Hapus</button>
+                                <button type="submit" class="text-red-700 bg-red-50 border border-red-200 hover:bg-red-100 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800 dark:hover:bg-red-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                                    Hapus
+                                </button>
                             </form>
                         </div>
                     </td>

@@ -92,7 +92,11 @@
                         </span>
                     </td>
                     <td class="px-4 py-3 text-center">
-                        <a href="{{ route('admin.stock-opnames.show', $opname->id) }}" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">Detail</a>
+                        <div class="inline-flex items-center justify-center">
+                            <a href="{{ route('admin.stock-opnames.show', $opname->id) }}" class="text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                                Detail
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 @empty

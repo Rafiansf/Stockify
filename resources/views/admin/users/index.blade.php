@@ -30,7 +30,7 @@
                 <th scope="col" class="px-6 py-3">Nama</th>
                 <th scope="col" class="px-6 py-3">Email</th>
                 <th scope="col" class="px-6 py-3">Role</th>
-                <th scope="col" class="px-6 py-3">Aksi</th>
+                <th scope="col" class="px-6 py-3 text-center">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -47,13 +47,19 @@
                         <span class="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Staff Gudang</span>
                     @endif
                 </td>
-                <td class="px-6 py-4 flex space-x-3">
-                    <a href="{{ route('admin.users.edit', $user->id) }}" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">Edit</a>
-                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="font-medium text-red-600 dark:text-red-400 hover:underline">Hapus</button>
-                    </form>
+                <td class="px-6 py-4 text-center whitespace-nowrap">
+                    <div class="inline-flex items-center justify-center gap-2">
+                        <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                            Edit
+                        </a>
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');" class="inline-flex items-center m-0 p-0">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-700 bg-red-50 border border-red-200 hover:bg-red-100 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800 dark:hover:bg-red-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                                Hapus
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             @empty

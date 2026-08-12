@@ -38,12 +38,16 @@
                 <td class="px-6 py-4"><code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300">{{ $category->slug }}</code></td>
                 <td class="px-6 py-4 text-gray-500 dark:text-gray-300">{{ $category->description ?? '-' }}</td>
                 <td class="px-6 py-4 text-center whitespace-nowrap">
-                    <div class="inline-flex items-center justify-center gap-3">
-                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="font-semibold text-blue-600 dark:text-blue-400 hover:underline text-xs">Edit</a>
+                    <div class="inline-flex items-center justify-center gap-2">
+                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                            Edit
+                        </a>
                         <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Hapus kategori ini? Semua produk terkait mungkin akan terpengaruh.');" class="inline-flex items-center m-0 p-0">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="font-semibold text-red-600 dark:text-red-400 hover:underline text-xs bg-transparent border-0 cursor-pointer p-0">Hapus</button>
+                            <button type="submit" class="text-red-700 bg-red-50 border border-red-200 hover:bg-red-100 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800 dark:hover:bg-red-900 font-medium rounded-lg text-xs px-3 py-1.5 transition">
+                                Hapus
+                            </button>
                         </form>
                     </div>
                 </td>
