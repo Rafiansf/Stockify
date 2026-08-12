@@ -1,19 +1,22 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="p-4 bg-white block border-b border-gray-200 rounded-lg shadow-sm mb-4">
+<div class="p-4 bg-white dark:bg-gray-800 block border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-4">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">Edit Data Supplier</h1>
-            <p class="text-sm text-gray-500">Perbarui rincian kontak supplier {{ $supplier->name }}.</p>
+            <h1 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Edit Data Supplier</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Perbarui rincian kontak supplier {{ $supplier->name }}.</p>
         </div>
-        <a href="{{ route('admin.suppliers.index') }}" class="text-gray-700 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">
-            &larr; Kembali
+        <a href="{{ route('admin.suppliers.index') }}" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Kembali
         </a>
     </div>
 </div>
 
-<div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+<div class="p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
     <form action="{{ route('admin.suppliers.update', $supplier->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -21,48 +24,48 @@
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <!-- Nama Supplier -->
             <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nama Supplier / Perusahaan</label>
-                <input type="text" id="name" name="name" value="{{ old('name', $supplier->name) }}" class="bg-gray-50 border @error('name') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Supplier / Perusahaan</label>
+                <input type="text" id="name" name="name" value="{{ old('name', $supplier->name) }}" class="bg-gray-50 border @error('name') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white dark:bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400" required>
                 @error('name')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- No. Telepon -->
             <div>
-                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Nomor Telepon</label>
-                <input type="text" id="phone" name="phone" value="{{ old('phone', $supplier->phone) }}" class="bg-gray-50 border @error('phone') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon</label>
+                <input type="text" id="phone" name="phone" value="{{ old('phone', $supplier->phone) }}" class="bg-gray-50 border @error('phone') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white dark:bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400" required>
                 @error('phone')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- Email (Opsional) -->
             <div class="md:col-span-2">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Alamat Email (Opsional)</label>
-                <input type="email" id="email" name="email" value="{{ old('email', $supplier->email) }}" class="bg-gray-50 border @error('email') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat Email (Opsional)</label>
+                <input type="email" id="email" name="email" value="{{ old('email', $supplier->email) }}" class="bg-gray-50 border @error('email') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white dark:bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400">
                 @error('email')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- Alamat -->
             <div class="md:col-span-2">
-                <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Alamat Lengkap</label>
-                <textarea id="address" name="address" rows="3" class="bg-gray-50 border @error('address') border-red-500 @else border-gray-300 @enderror text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">{{ old('address', $supplier->address) }}</textarea>
+                <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat Lengkap</label>
+                <textarea id="address" name="address" rows="3" class="bg-gray-50 border @error('address') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white dark:bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400">{{ old('address', $supplier->address) }}</textarea>
                 @error('address')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror
             </div>
         </div>
 
         <div class="flex items-center space-x-3">
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                Perbarui Supplier
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition shadow-sm">
+                Perbarui
             </button>
-            <a href="{{ route('admin.suppliers.index') }}" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900">
-                Batal
-            </a>
+            <button type="reset" class="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition shadow-sm border border-gray-200 dark:border-gray-600">
+                Reset
+            </button>
         </div>
     </form>
 </div>

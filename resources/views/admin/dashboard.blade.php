@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <!-- Widget Chart.js Tren Mutasi Stok -->
+    <!-- Widget Chart.js Tren Mutasi Stok Modern -->
     <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-gray-700 pb-3">
             <div>
@@ -162,54 +162,85 @@
     </div>
 </div>
 
-<!-- Load Chart.js CDN & Inisialisasi Script -->
+<!-- Load Chart.js CDN & Inisialisasi Script Modern Area Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById('stockTrendChart').getContext('2d');
         const isDark = document.documentElement.classList.contains('dark');
-        const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+        const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)';
         const tickColor = isDark ? '#9CA3AF' : '#6B7280';
 
+        const gradientStockIn = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientStockIn.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
+        gradientStockIn.addColorStop(1, 'rgba(16, 185, 129, 0.00)');
+
+        const gradientStockOut = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientStockOut.addColorStop(0, 'rgba(239, 68, 68, 0.45)');
+        gradientStockOut.addColorStop(1, 'rgba(239, 68, 68, 0.00)');
+
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: @json($chartMonths),
                 datasets: [
                     {
                         label: 'Stok Masuk (+)',
                         data: @json($stockInMonthly),
-                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        backgroundColor: gradientStockIn,
                         borderColor: 'rgb(16, 185, 129)',
-                        borderWidth: 1.5,
-                        borderRadius: 4
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(16, 185, 129)',
+                        pointRadius: 3,
+                        pointHoverRadius: 6
                     },
                     {
                         label: 'Stok Keluar (-)',
                         data: @json($stockOutMonthly),
-                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                        backgroundColor: gradientStockOut,
                         borderColor: 'rgb(239, 68, 68)',
-                        borderWidth: 1.5,
-                        borderRadius: 4
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(239, 68, 68)',
+                        pointRadius: 3,
+                        pointHoverRadius: 6
                     }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: { color: tickColor }
+                        align: 'end',
+                        labels: { 
+                            color: tickColor,
+                            usePointStyle: true,
+                            boxWidth: 8
+                        }
                     },
                     tooltip: {
-                        mode: 'index',
-                        intersect: false
+                        backgroundColor: isDark ? 'rgba(17, 24, 39, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+                        titleColor: isDark ? '#F3F4F6' : '#111827',
+                        bodyColor: isDark ? '#D1D5DB' : '#4B5563',
+                        borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                        borderWidth: 1,
+                        padding: 12,
+                        boxPadding: 6,
+                        usePointStyle: true
                     }
                 },
                 scales: {
                     x: {
-                        grid: { color: gridColor },
+                        grid: { display: false },
                         ticks: { color: tickColor }
                     },
                     y: {

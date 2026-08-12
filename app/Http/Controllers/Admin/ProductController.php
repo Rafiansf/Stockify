@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Supplier; // <-- 1. Tambahkan import model Supplier
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -15,14 +15,16 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['category', 'supplier'])->orderBy('code', 'asc')->paginate(10);
-        return view('admin.products.index', compact('products'));
+        $categories = Category::all(); 
+        
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     public function create()
     {
         $categories = Category::all();
-        $suppliers = Supplier::all(); // <-- 2. Ambil data supplier
-        return view('admin.products.create', compact('categories', 'suppliers')); // <-- 3. Kirim ke view
+        $suppliers = Supplier::all(); 
+        return view('admin.products.create', compact('categories', 'suppliers')); 
     }
 
     public function store(Request $request)
@@ -30,7 +32,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'nullable|exists:suppliers,id', // <-- 4. Tambahkan validasi supplier
+            'supplier_id' => 'nullable|exists:suppliers,id', 
             'purchase_price' => 'nullable|numeric|min:0',
             'selling_price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -62,8 +64,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
-        $suppliers = Supplier::all(); // <-- 5. Ambil data supplier untuk edit
-        return view('admin.products.edit', compact('product', 'categories', 'suppliers')); // <-- 6. Kirim ke view
+        $suppliers = Supplier::all(); 
+        return view('admin.products.edit', compact('product', 'categories', 'suppliers')); 
     }
 
     public function update(Request $request, Product $product)
@@ -71,7 +73,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'nullable|exists:suppliers,id', // <-- 7. Tambahkan validasi supplier
+            'supplier_id' => 'nullable|exists:suppliers,id', 
             'purchase_price' => 'nullable|numeric|min:0',
             'selling_price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -148,5 +150,65 @@ class ProductController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt|max:2048',
+        ]);
+
+        $file = $request->file('file');
+        $handle = fopen($file->getRealPath(), 'r');
+        
+        // Lewati baris header
+        fgetcsv($handle);
+
+        while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+            $categoryName = $row[2] ?? null;
+            $categoryId = null;
+            if ($categoryName && $categoryName !== '-') {
+                $category = Category::firstOrCreate(
+                    ['name' => $categoryName],
+                    ['slug' => Str::slug($categoryName)]
+                );
+                $categoryId = $category->id;
+            }
+
+            $supplierName = $row[3] ?? null;
+            $supplierId = null;
+            if ($supplierName && $supplierName !== '-') {
+                // Menambahkan 'phone' => '-' agar tidak terjadi error missing default value pada kolom phone
+                $supplier = Supplier::firstOrCreate(
+                    ['name' => $supplierName],
+                    ['phone' => '-']
+                );
+                $supplierId = $supplier->id;
+            }
+
+            $latestId = Product::max('id') ?? 0;
+            $code = !empty($row[0]) && $row[0] !== '-' ? $row[0] : 'PRD-' . str_pad($latestId + 1, 3, '0', STR_PAD_LEFT);
+
+            Product::updateOrCreate(
+                ['code' => $code],
+                [
+                    'name' => $row[1],
+                    'slug' => Str::slug($row[1]),
+                    'category_id' => $categoryId ?? Category::first()->id ?? 1,
+                    'supplier_id' => $supplierId,
+                    'purchase_price' => $row[4] ?? 0,
+                    'selling_price' => $row[5] ?? 0,
+                    'stock' => $row[6] ?? 0,
+                    'min_stock' => 5,
+                    'size' => $row[7] !== '-' ? $row[7] : null,
+                    'color' => $row[8] !== '-' ? $row[8] : null,
+                ]
+            );
+        }
+
+        fclose($handle);
+
+        return redirect()->route('admin.products.index')
+                         ->with('success', 'Data produk berhasil diimport!');
     }
 }
