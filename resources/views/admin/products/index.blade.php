@@ -79,8 +79,8 @@
                     </td>
                     <td class="px-4 py-3 text-gray-500 dark:text-gray-300">{{ $product->category->name ?? '-' }}</td>
                     <td class="px-4 py-3">
-                        <div class="text-gray-900 dark:text-white font-medium">Rp {{ number_format($product->selling_price, 0, ',', '.') }}</div>
-                        <div class="text-xs text-gray-400 dark:text-gray-400">Beli: Rp {{ number_format($product->purchase_price, 0, ',', '.') }}</div>
+                        <div class="text-gray-900 dark:text-white font-medium">Rp {{ number_format($product->selling_price, 2, ',', '.') }}</div>
+                        <div class="text-xs text-gray-400 dark:text-gray-400">Beli: Rp {{ number_format($product->purchase_price, 2, ',', '.') }}</div>
                     </td>
                     <td class="px-4 py-3 whitespace-nowrap">
                         <span class="px-2.5 py-1 rounded-full text-xs font-semibold inline-block {{ $product->stock <= $product->min_stock ? 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300' : 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' }}">

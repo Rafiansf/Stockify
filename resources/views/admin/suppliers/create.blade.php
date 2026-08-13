@@ -29,10 +29,10 @@
                 @enderror
             </div>
 
-            <!-- No. Telepon -->
+            <!-- No. Telepon (Ditambahkan pattern & title) -->
             <div>
                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon</label>
-                <input type="text" id="phone" name="phone" value="{{ old('phone') }}" class="bg-gray-50 border @error('phone') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white dark:bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400" placeholder="081234567890" required>
+                <input type="text" id="phone" name="phone" value="{{ old('phone') }}" pattern="[0-9\+\-\s\(\)]+" title="Nomor telepon hanya boleh berisi angka dan simbol (+, -, spasi)" class="bg-gray-50 border @error('phone') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white dark:bg-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400" placeholder="081234567890" required>
                 @error('phone')
                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror

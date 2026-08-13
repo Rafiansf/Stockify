@@ -83,7 +83,7 @@
             {{-- Harga Beli --}}
             <div>
                 <label for="purchase_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Harga Beli (Rp)</label>
-                <input type="number" name="purchase_price" id="purchase_price" value="{{ old('purchase_price') }}" min="0" step="100"
+                <input type="number" name="purchase_price" id="purchase_price" value="{{ old('purchase_price') }}" min="0" step="1"
                     class="w-full px-4 py-2 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('purchase_price') border-red-500 @enderror"
                     placeholder="80000">
                 @error('purchase_price')
@@ -94,7 +94,7 @@
             {{-- Harga Jual --}}
             <div>
                 <label for="selling_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Harga Jual (Rp) <span class="text-red-500">*</span></label>
-                <input type="number" name="selling_price" id="selling_price" value="{{ old('selling_price') }}" required min="0" step="100"
+                <input type="number" name="selling_price" id="selling_price" value="{{ old('selling_price') }}" required min="0" step="1"
                     class="w-full px-4 py-2 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('selling_price') border-red-500 @enderror"
                     placeholder="100000">
                 @error('selling_price')

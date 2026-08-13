@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'supplier'])->orderBy('code', 'asc')->paginate(10);
+        $products = Product::with(['category', 'supplier'])->latest()->paginate(10);
         $categories = Category::all(); 
         
         return view('admin.products.index', compact('products', 'categories'));
@@ -43,6 +43,13 @@ class ProductController extends Controller
         ]);
 
         $data = $request->except('image');
+
+        if (!empty($data['purchase_price'])) {
+            $data['purchase_price'] = $data['purchase_price'] * 1000;
+        }
+        if (!empty($data['selling_price'])) {
+            $data['selling_price'] = $data['selling_price'] * 1000;
+        }
 
         $latestId = Product::max('id') ?? 0;
         $data['code'] = 'PRD-' . str_pad($latestId + 1, 3, '0', STR_PAD_LEFT);
@@ -84,6 +91,13 @@ class ProductController extends Controller
         ]);
 
         $data = $request->except('image');
+
+        if (!empty($data['purchase_price'])) {
+            $data['purchase_price'] = $data['purchase_price'] * 1000;
+        }
+        if (!empty($data['selling_price'])) {
+            $data['selling_price'] = $data['selling_price'] * 1000;
+        }
 
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug($request->name);
@@ -161,7 +175,6 @@ class ProductController extends Controller
         $file = $request->file('file');
         $handle = fopen($file->getRealPath(), 'r');
         
-        // Lewati baris header
         fgetcsv($handle);
 
         while (($row = fgetcsv($handle, 1000, ',')) !== false) {
@@ -178,7 +191,6 @@ class ProductController extends Controller
             $supplierName = $row[3] ?? null;
             $supplierId = null;
             if ($supplierName && $supplierName !== '-') {
-                // Menambahkan 'phone' => '-' agar tidak terjadi error missing default value pada kolom phone
                 $supplier = Supplier::firstOrCreate(
                     ['name' => $supplierName],
                     ['phone' => '-']

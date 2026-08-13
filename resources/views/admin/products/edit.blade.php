@@ -59,14 +59,14 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="purchase_price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga Beli (Rp)</label>
-                    <input type="number" id="purchase_price" name="purchase_price" value="{{ old('purchase_price', $product->purchase_price) }}" class="bg-gray-50 dark:bg-gray-700 border @error('purchase_price') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="0">
+                    <input type="number" id="purchase_price" name="purchase_price" value="{{ old('purchase_price', $product->purchase_price) }}" class="bg-gray-50 dark:bg-gray-700 border @error('purchase_price') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="0" step="1">
                     @error('purchase_price')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
                     <label for="selling_price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga Jual (Rp) <span class="text-red-500">*</span></label>
-                    <input type="number" id="selling_price" name="selling_price" value="{{ old('selling_price', $product->selling_price) }}" class="bg-gray-50 dark:bg-gray-700 border @error('selling_price') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="0" required>
+                    <input type="number" id="selling_price" name="selling_price" value="{{ old('selling_price', $product->selling_price) }}" class="bg-gray-50 dark:bg-gray-700 border @error('selling_price') border-red-500 @else border-gray-300 dark:border-gray-600 @enderror text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="0" step="1" required>
                     @error('selling_price')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
